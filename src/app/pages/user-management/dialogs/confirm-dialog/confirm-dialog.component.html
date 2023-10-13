@@ -1,0 +1,10 @@
+<nb-card>
+    <nb-card-header class="dialog-header">{{ title }}</nb-card-header>
+    <nb-card-body>
+        <div class="dialog-body">{{ message }}</div>
+        <div class="dialog-footer">
+            <button nbButton status="danger" (click)="confirm()">Confirm</button>
+            <button nbButton status="primary" (click)="cancel()">Cancel</button>
+        </div>
+    </nb-card-body>
+</nb-card>

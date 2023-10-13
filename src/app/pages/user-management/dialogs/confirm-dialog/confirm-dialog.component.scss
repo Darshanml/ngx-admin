@@ -1,0 +1,19 @@
+nb-card{
+
+  .dialog-header {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  .dialog-body {
+    margin-top: 0.1rem;
+    margin-bottom: 1rem;
+  }
+  .dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  button {
+    margin-left: 1rem;
+  }
+}

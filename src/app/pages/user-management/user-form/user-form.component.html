@@ -1,0 +1,145 @@
+<nb-card>
+    <nb-card-header>
+      {{ formTitle }}
+    </nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input nbInput fullWidth type="text" id="firstName" formControlName="firstName" required>
+              <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched && userForm.get('firstName')?.hasError('required')" class="error-text">
+                First Name is required.
+              </div>
+              <div *ngIf="userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched && userForm.get('firstName')?.hasError('pattern')" class="error-text">
+                First Name should contain only letters and spaces.
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input nbInput fullWidth type="text" id="lastName" formControlName="lastName" required>
+              <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched && userForm.get('lastName')?.hasError('required')" class="error-text">
+                Last Name is required.
+              </div>
+              <div *ngIf="userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched && userForm.get('lastName')?.hasError('pattern')" class="error-text">
+                Last Name should contain only letters and spaces.
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input nbInput fullWidth type="text" id="email" formControlName="email" required>
+              <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched && userForm.get('email')?.hasError('required')" class="error-text">
+                Email is required.
+              </div>
+              <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched && userForm.get('email')?.hasError('email')" class="error-text">
+                Please enter a valid email.
+              </div>
+            </div>
+          </div> 
+        </div> 
+        
+        <div class="row">
+          <div class="col-md-4">  
+            <div class="form-group">
+              <label for="phone">Phone No</label>
+              <input nbInput fullWidth id="phone" formControlName="phone" required>
+              <div *ngIf="userForm.get('phone')?.invalid && userForm.get('phone')?.touched && userForm.get('phone')?.hasError('required')" class="error-text">
+                Phone No. is required.
+              </div>
+              <div *ngIf="userForm.get('phone')?.invalid && userForm.get('phone')?.touched && userForm.get('phone')?.hasError('pattern')" class="error-text">
+                Phone No. should contain only numbers and not exceed 10 digits.
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="dob">Date of Birth</label>
+              <input nbInput fullWidth id="dob" [nbDatepicker]="datePicker" formControlName="dob" required>
+              
+              <nb-datepicker #datePicker></nb-datepicker>
+              <div *ngIf="userForm.get('dob')?.invalid && userForm.get('dob')?.touched && userForm.get('dob')?.hasError('required')" class="error-text">
+                Date of Birth is required.
+              </div>
+            </div>
+          </div>
+    
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="address">Address</label>
+              <textarea nbInput fullWidth type="text" id="address" formControlName="address" required></textarea>
+              <div *ngIf="userForm.get('address')?.invalid && userForm.get('address')?.touched && userForm.get('address')?.hasError('required')" class="error-text">
+                Address is required.
+              </div>
+            </div>
+          </div>  
+        </div>
+        
+        <div class="row">
+          <div class="col">
+            <div class="button-container">
+              <button nbButton status="primary" type="submit" [disabled]="userForm.invalid">{{ isEditing ? 'Update User' : 'Create User' }}</button>
+              <button nbButton status="warning" type="button" (click)="onReset()">Cancel</button>
+            </div>
+          </div>
+        </div>  
+      </form>
+    </nb-card-body>
+</nb-card>
+  
+<nb-card>
+  <nb-card-header>
+    <span>Users List</span>
+    <button nbButton (click)="toggleSortDirection()">
+      <nb-icon [icon]="sortDirection === 'asc' ? 'arrow-upward' : 'arrow-downward'"></nb-icon>
+    </button>
+    <button nbButton status="primary" (click)="downloadAsExcel()">Download as Excel</button>
+    <button nbButton status="primary" (click)="downloadAsPDF()">Download as PDF</button>
+  </nb-card-header>
+  <nb-card-body>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Date Of Birth</th>
+          <th>Address</th>
+          <th>Actions</th>
+          <th>Preview</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index" >
+          <td>{{ user.id }}</td>
+          <td>{{ user.firstName }}</td>
+          <td>{{ user.lastName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phoneNumber }}</td>
+          <td>{{ user.DateOfBirth | date:'yyyy-MM-dd' }}</td>
+          <td>{{ user.address }}</td>
+          <td>
+            <button nbButton status="primary" (click)="editUser(i)">
+              <nb-icon icon="edit"></nb-icon>
+            </button>
+            <button nbButton status="danger" (click)="deleteUser(user.id)">
+              <nb-icon icon="trash-2"></nb-icon>
+            </button>
+          </td>
+          <td>
+            <button nbButton status="primary" (click)="openPreviewDialog(user)">Preview</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>

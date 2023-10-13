@@ -1,0 +1,89 @@
+<nb-card>
+    <nb-card-header>
+      {{ formTitle }}
+    </nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-4">
+          <div class="form-group">
+            <label for="roleName">Role Name</label>
+            <input nbInput fullWidth type="text" id="roleName" formControlName="roleName" required>
+            <div *ngIf="roleForm.get('roleName')?.invalid && roleForm.get('roleName')?.touched && roleForm.get('roleName')?.hasError('required')" class="error-text">
+              Role Name is required.
+            </div>
+          </div>
+          </div>
+  
+          <div class="col-md-4">
+          <div class="form-group">
+            <label for="roleDescription">Role Description</label>
+            <textarea nbInput fullWidth id="roleDescription" formControlName="roleDescription" required></textarea>
+            <div *ngIf="roleForm.get('roleDescription')?.invalid && roleForm.get('roleDescription')?.touched && roleForm.get('roleDescription')?.hasError('required')" class="error-text">
+              Role Description is required.
+            </div>
+          </div>
+          </div>
+  
+          <div class="col-md-4">
+          <div class="form-group">
+            <div class="button-container">
+              <button nbButton status="primary" type="submit" [disabled]="roleForm.invalid">
+                {{ isEditing ? 'Update Role' : 'Create Role' }}
+              </button>
+              <button nbButton status="warning" type="button" (click)="onReset()">Cancel</button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </form>
+    </nb-card-body>
+</nb-card>
+  
+       
+      
+  
+<nb-card>
+  <nb-card-header>
+    <span>Roles List</span>
+    <button nbButton (click)="toggleSortDirection()">
+      <nb-icon [icon]="sortDirection === 'asc' ? 'arrow-upward' : 'arrow-downward'"></nb-icon>
+    </button>
+    <button nbButton status="primary" (click)="downloadAsExcel()">Download as Excel</button>
+    <button nbButton status="primary" (click)="downloadAsPDF()">Download as PDF</button>
+  </nb-card-header>
+  <nb-card-body>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Role Name</th>
+          <th>Role Description</th>
+          <th>Actions</th>
+          <th>Preview</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of roles; let i = index">
+          <td>{{ role.id }}</td>
+          <td>{{ role.roleName }}</td>
+          <td>{{ role.roleDescription }}</td>
+          <td>
+            <button nbButton status="primary" (click)="editRole(i)">
+              <nb-icon icon="edit"></nb-icon>
+            </button>
+            <button nbButton status="danger" (click)="deleteRole(role.id)">
+              <nb-icon icon="trash-2"></nb-icon>
+            </button>
+          </td>
+          <td>
+            <button nbButton status="primary" (click)="openPreviewDialog(role)">Preview</button>
+            <!-- Add other buttons for edit and delete if needed -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
+
+  

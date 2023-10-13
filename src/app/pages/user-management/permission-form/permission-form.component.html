@@ -1,0 +1,191 @@
+<nb-card>
+      <nb-card-header>
+        {{ formTitle }}
+      </nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="permissionForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="permissionName">Permission Name</label>
+              <input nbInput fullWidth type="text" id="permissionName" formControlName="permissionName">
+              <div *ngIf="permissionForm.get('permissionName')?.invalid && permissionForm.get('permissionName')?.touched" class="error-text">
+                Permission Name is required.
+              </div>
+            </div>
+            </div>
+
+            <div class="col-md-4">
+            <div class="form-group">
+              <label for="permissionDescription">Permission Description</label>
+              <textarea nbInput fullWidth id="permissionDescription" formControlName="permissionDescription"></textarea>
+              <div *ngIf="permissionForm.get('permissionDescription')?.invalid && permissionForm.get('permissionDescription')?.touched" class="error-text">
+                Permission Description is required.
+              </div>
+            </div>
+            </div>
+
+            <div class="col-md-4">
+            <div class="form-group">
+              <div class="button-container">
+                <button nbButton status="primary" type="submit" [disabled]="permissionForm.invalid">
+                  {{ isEditing ? 'Update' : 'Create' }}
+                </button>
+                <button nbButton status="warning" type="button" (click)="onReset()">Cancel</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </form>
+      </nb-card-body>
+</nb-card>
+  
+
+
+<!--<nb-card>
+    <nb-card-header>
+      <span>Permissions</span>
+    </nb-card-header>
+    <nb-card-body>
+      <table #table>
+        <ng-container nbTreeGridColumnDef="id">
+          <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
+            Id
+            <button nbButton (click)="toggleSortDirection()">
+              <nb-icon></nb-icon>
+            </button>
+          </th>
+          <tr nbTreeGridCell *nbTreeGridCellDef="let permission">{{ permission.id }}</tr>
+        </ng-container>
+        
+        <ng-container nbTreeGridColumnDef="permissionName">
+          <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>Permission Name</th>
+          <tr nbTreeGridCell *nbTreeGridCellDef="let permission">{{ permission.permissionName }}</tr>
+        </ng-container>
+        
+        <ng-container nbTreeGridColumnDef="permissionDescription">
+          <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>Permission Description</th>
+          <tr nbTreeGridCell *nbTreeGridCellDef="let permission">{{ permission.permissionDescription }}</tr>
+        </ng-container>
+  
+        <ng-container nbTreeGridColumnDef="actions">
+          <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>Actions</th>
+          <tr nbTreeGridCell *nbTreeGridCellDef="let permission">
+            <button nbButton status="primary" (click)="editPermission(permission)">
+              <nb-icon icon="edit"></nb-icon>
+            </button>
+            <button nbButton status="danger" (click)="deletePermission(permission.id)">
+              <nb-icon icon="delete"></nb-icon>
+            </button>
+        </tr>
+        </ng-container>
+        
+        <tr nbTreeGridHeaderRow *nbHeaderRowDef="['id', 'permissionName', 'permissionDescription', 'actions']"></tr>
+        <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: ['id', 'permissionName', 'permissionDescription', 'actions'];"></tr>
+        
+      </table>
+    </nb-card-body>
+</nb-card>-->
+
+<nb-card>
+  <nb-card-header>
+    <span>Permissions</span>
+    <button nbButton (click)="toggleSortDirection()">
+      <nb-icon [icon]="sortDirection === 'asc' ? 'arrow-upward' : 'arrow-downward'"></nb-icon>
+    </button>
+    <button nbButton status="primary" (click)="downloadAsExcel()">Download as Excel</button>
+    <button nbButton status="primary" (click)="downloadAsPDF()">Download as PDF</button>
+  </nb-card-header>
+  <nb-card-body>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Permission Name</th>
+          <th>Permission Description</th>
+          <th>Actions</th>
+          <th>Preview</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let permission of permissions; let i = index">
+          <td>{{ permission.id }}</td>
+          <td>{{ permission.permissionName }}</td>
+          <td>{{ permission.permissionDescription }}</td>
+          <td>   
+              <button nbButton status="primary" (click)="editPermission(i)">
+                <nb-icon icon="edit"></nb-icon>
+              </button>
+              <button nbButton status="danger" (click)="deletePermission(permission.id)">
+                <nb-icon icon="trash-2"></nb-icon>
+              </button>
+          </td>
+          <td>
+            <button nbButton status="primary" (click)="openPreviewDialog(permission)">Preview</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
+
+
+
+<!---<nb-card>
+  <nb-card-header>
+    <span>Permissions</span>
+  </nb-card-header>
+  <nb-card-body>
+     Add Angular Material table
+    <table mat-table [dataSource]!="permissions">
+       Define table columns 
+      <ng-container matColumnDef="permissionName">
+        <th mat-header-cell *matHeaderCellDef> Permission Name </th>
+        <td mat-cell *matCellDef="let permission"> {{ permission.permissionName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="permissionDescription">
+        <th mat-header-cell *matHeaderCellDef> Permission Description </th>
+        <td mat-cell *matCellDef="let permission"> {{ permission.permissionDescription }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let permission">
+          <button nbButton status="primary" (click)="editPermission(permission)">
+            <nb-icon icon="edit"></nb-icon>
+          </button>
+          <button nbButton status="danger" (click)="deletePermission(permission.id)">
+            <nb-icon icon="delete"></nb-icon>
+          </button>
+        </td>
+      </ng-container>
+
+       Define table rows 
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+     Add permission form inputs and buttons 
+    <form [formGroup]="permissionForm" (ngSubmit)="onSubmit()">
+      <label>
+        Permission Name:
+        <input formControlName="permissionName" />
+      </label>
+      <label>
+        Permission Description:
+        <input formControlName="permissionDescription" />
+      </label>
+      <div>
+        <button nbButton status="primary" type="submit">
+          {{ isEditing ? 'Update Permission' : 'Create Permission' }}
+        </button>
+        <button nbButton status="warning" type="button" (click)="onReset()">Reset</button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>-->
+
+
+  
+  

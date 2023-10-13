@@ -1,0 +1,82 @@
+nb-card {
+  
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+  
+      .col {
+        flex: 1;
+        margin-right: 10px;
+  
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  
+    .form-group {
+      display: block;
+      margin-bottom: 20px;
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      input, textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .error-text {
+        color: #f44336;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+    }
+  
+    .button-container {
+      display: flex;
+      justify-content: flex-end;
+      button {
+        margin-left: 10px;
+      }
+    }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: #e0e0e0;
+  }
+
+  button {
+    margin: 12px 3px 5px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  table {
+    button {
+      margin: 5px 0; /* Adjust spacing between buttons vertically in mobile view */
+    }
+  }
+}

@@ -1,0 +1,12 @@
+<nb-card>
+    <nb-card-header>User Previews</nb-card-header>
+    <nb-card-body>
+        <p><strong>First Name</strong>{{ previewData?.firstName }}</p>
+        <p><strong>Last Name</strong>{{ previewData?.lastName }}</p>
+        <p><strong>Email:</strong> {{ previewData?.email }}</p>
+        <p><strong>Phone Number:</strong> {{ previewData?.phoneNumber }}</p>
+        <p><strong>Date of Birth:</strong> {{ previewData?.DateOfBirth | date:'yyyy-MM-dd' }}</p>
+        <p><strong>Address:</strong> {{ previewData?.address }}</p>
+    </nb-card-body>
+  </nb-card>
+  
